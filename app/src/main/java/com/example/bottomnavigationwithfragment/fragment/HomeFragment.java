@@ -8,30 +8,33 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.bottomnavigationwithfragment.MyAdapter;
 import com.example.bottomnavigationwithfragment.R;
-import com.example.bottomnavigationwithfragment.large_classify_fragment.ServiceFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class HomeFragment extends Fragment {
-    private ViewGroup rootView;
-    private ViewPager viewPager;
-    FragmentManager fragmentManager;
-    Fragment serviceFragment;
-
+    MyAdapter myAdapter;
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = (ViewGroup)inflater.inflate(R.layout.home_fragment,container,false);
-        serviceFragment = new ServiceFragment();
-        fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.homecontainer,serviceFragment).commit();
-        return rootView;
+
+        return inflater.inflate(R.layout.home_fragment,container,false);
+
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        myAdapter = new MyAdapter(getChildFragmentManager());
+        viewPager = view.findViewById(R.id.home_container);
+        viewPager.setAdapter(myAdapter);
+        tabLayout = view.findViewById(R.id.large_align);
+        tabLayout.setupWithViewPager(viewPager);
 
 
+    }
 }
