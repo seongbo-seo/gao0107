@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         fragmentManager = getSupportFragmentManager();
         homeFragment = new HomeFragment();
         fragmentManager.beginTransaction().replace(R.id.frame,homeFragment).commit();

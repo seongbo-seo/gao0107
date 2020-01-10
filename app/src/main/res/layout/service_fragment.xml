@@ -3,12 +3,61 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#AD5EBB"
-    android:gravity="center">
-    <TextView
-        android:id="@+id/text1"
-        android:layout_width="wrap_content"
+    >
+   <LinearLayout
+    android:layout_width="330dp"
+    android:layout_height="wrap_content"
+    android:weightSum="3"
+    android:orientation="horizontal"
+    android:layout_marginTop="50dp"
+    android:layout_gravity="center">
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_weight="1"
+        android:id="@+id/sauna_service"
+        android:src="@drawable/ic_sauna_xxhdpi"/>
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_weight="1"
+        android:id="@+id/barber_service"
+        android:src="@drawable/ic_barber_xxhdpi"/>
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_weight="1"
+        android:id="@+id/laundry_service"
+        android:src="@drawable/ic_laundry_xxhdpi"/>
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:text="3"
-        android:textSize="50dp"
-        />
+        android:layout_marginTop="50dp"
+        android:weightSum="3"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:id="@+id/carfix_service"
+            android:src="@drawable/ic_carfix_xxhdpi"/>
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:id="@+id/gas_service"
+            android:src="@drawable/ic_gas_xxhdpi"/>
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:id="@+id/photo_service"
+            android:src="@drawable/ic_photo_xxhdpi"/>
+
+    </LinearLayout>
+
+
 </LinearLayout>
