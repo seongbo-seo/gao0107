@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.bottomnavigationwithfragment.MyAdapter;
+import com.example.bottomnavigationwithfragment.viewpagerinfragmentadapter.MyAdapter;
 import com.example.bottomnavigationwithfragment.R;
 import com.google.android.material.tabs.TabLayout;
 
