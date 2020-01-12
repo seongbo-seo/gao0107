@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/store_image"
+        android:src="@drawable/kyochon">
+
+    </ImageView>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="교촌치킨"
+            android:id="@+id/store_name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="운영시간: 09:00~22:00"
+            android:id="@+id/store_time"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2020.01.11~30일 한정 치즈볼 구매 시 1 + 1 증정행사"
+            android:id="@+id/store_today"/>
+
+    </LinearLayout>
+
+</LinearLayout>
