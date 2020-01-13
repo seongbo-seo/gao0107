@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,22 +19,29 @@ public class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecycl
 
     private ArrayList<StoreItem> mDataSet;
 
-    public static class ResultViewHolder extends RecyclerView.ViewHolder {
+    public static class ResultViewHolder extends RecyclerView.ViewHolder{
        private ImageView storeImage;
        private TextView storeName, storeTime, storeToday;
 
-        public ResultViewHolder(View v){
-            super(v);
-            v.setOnClickListener(new View.OnClickListener() {
+        public ResultViewHolder(View itemView){
+            super(itemView);
+//            v.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Log.e("recyclerviewItem",v.getId()+"클릭");
+//                }
+//            });
+            storeImage = (ImageView)itemView.findViewById(R.id.store_image);
+            storeName = (TextView)itemView.findViewById(R.id.store_name);
+            storeTime = (TextView)itemView.findViewById(R.id.store_time);
+            storeToday = (TextView)itemView.findViewById(R.id.store_today);
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("recyclerviewItem",v.getId()+"클릭");
+                    Toast.makeText(v.getContext(),"아이템선택"+getAdapterPosition(),Toast.LENGTH_LONG).show();
                 }
             });
-            storeImage = (ImageView)v.findViewById(R.id.store_image);
-            storeName = (TextView)v.findViewById(R.id.store_name);
-            storeTime = (TextView)v.findViewById(R.id.store_time);
-            storeToday = (TextView)v.findViewById(R.id.store_today);
+
         }
     }
 
@@ -53,9 +61,11 @@ public class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
+        //온바이드에서 클릭리스너 구현 예정( 해야함~~~~~~~~~~~~)
         holder.storeName.setText(mDataSet.get(position).getStoreName());
         holder.storeTime.setText(mDataSet.get(position).getStoreTime());
         holder.storeToday.setText(mDataSet.get(position).getStoreToday());
+
     }
 
     @Override

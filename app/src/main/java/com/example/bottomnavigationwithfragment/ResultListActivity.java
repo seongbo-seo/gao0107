@@ -1,6 +1,7 @@
 package com.example.bottomnavigationwithfragment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +34,15 @@ public class ResultListActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.resultlist_recyclerview);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+        //구분선 추가하기
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        //간격 조절
+        //RecyclerViewDeco deco = new RecyclerViewDeco(100);
+        //recyclerView.addItemDecoration(deco);
 
         mAdapter = new ResultRecyclerViewAdapter(mArrayList);
         recyclerView.setAdapter(mAdapter);
