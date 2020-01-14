@@ -1,5 +1,7 @@
 package com.example.bottomnavigationwithfragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +19,12 @@ import java.util.List;
 
 public class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecyclerViewAdapter.ResultViewHolder> {
 
-    private ArrayList<StoreItem> mDataSet;
+    public static ArrayList<StoreItem> mDataSet;
 
     public static class ResultViewHolder extends RecyclerView.ViewHolder{
        private ImageView storeImage;
        private TextView storeName, storeTime, storeToday;
+
 
         public ResultViewHolder(View itemView){
             super(itemView);
@@ -38,7 +41,14 @@ public class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecycl
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Context context = v.getContext();
                     Toast.makeText(v.getContext(),"아이템선택"+getAdapterPosition(),Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(context,StoreDetail.class);
+                    StoreItem storeItem = mDataSet.get(getAdapterPosition());
+                    Log.e("position item",storeItem.getStoreName());
+                    context.startActivity(intent);
+                    Log.e("intent activate","intent act");
+
                 }
             });
 
@@ -61,7 +71,7 @@ public class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int position) {
-        //온바이드에서 클릭리스너 구현 예정( 해야함~~~~~~~~~~~~)
+       //데이터 관리에 집중
         holder.storeName.setText(mDataSet.get(position).getStoreName());
         holder.storeTime.setText(mDataSet.get(position).getStoreTime());
         holder.storeToday.setText(mDataSet.get(position).getStoreToday());
