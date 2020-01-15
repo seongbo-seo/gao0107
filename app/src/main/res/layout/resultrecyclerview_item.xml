@@ -28,6 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2020.01.11~30일 한정 치즈볼 구매 시 1 + 1 증정행사"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:id="@+id/store_today"/>
 
     </LinearLayout>
