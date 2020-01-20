@@ -4,4 +4,12 @@
     android:layout_height="match_parent"
     android:background="#673AB7">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favoritelist_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
+        android:background="#797171">
+    </androidx.recyclerview.widget.RecyclerView>
+
 </LinearLayout>
