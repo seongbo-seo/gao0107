@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#673AB7">
+    android:background="#F8F8F3">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favoritelist_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:nestedScrollingEnabled="false"
-        android:background="#797171">
+        android:background="#EEEEEC">
     </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

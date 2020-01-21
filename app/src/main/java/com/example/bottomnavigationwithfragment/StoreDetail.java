@@ -32,6 +32,8 @@ public class StoreDetail extends AppCompatActivity {
                 return true;
             }
             case R.id.favorite:
+                //레트로 핏으로 즐겨찾기 테이블에 추가하는 메소드 정의
+                return true;
 
         }
         return super.onOptionsItemSelected(item);

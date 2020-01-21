@@ -30,8 +30,8 @@ public class ServiceFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ResultListActivity.class);
-                intent.putExtra("dae","서비스");
-                intent.putExtra("joong","미용실");
+                intent.putExtra("dae","service");
+                intent.putExtra("joong","barbershop");
                 startActivity(intent);
 
 

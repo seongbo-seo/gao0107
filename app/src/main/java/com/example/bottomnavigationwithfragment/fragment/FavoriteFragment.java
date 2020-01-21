@@ -75,6 +75,12 @@ public class FavoriteFragment extends Fragment {
 
         Context context = rootView.getContext();
         recyclerView = (RecyclerView)rootView.findViewById(R.id.favoritelist_recyclerview);
+
+        //구분선 추가하기
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(context).getOrientation());
+
+        recyclerView.addItemDecoration(dividerItemDecoration);
         mAdapter = new ResultRecyclerViewAdapter(mArrayList);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);

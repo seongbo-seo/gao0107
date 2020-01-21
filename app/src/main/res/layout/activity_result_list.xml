@@ -6,13 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ResultListActivity">
-
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/toolbar1"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/resultlist_recyclerview"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:nestedScrollingEnabled="false"
-        android:background="#797171">
+        android:background="#EEEEEC">
 
     </androidx.recyclerview.widget.RecyclerView>
 

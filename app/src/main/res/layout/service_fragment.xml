@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AD5EBB"
+    android:background="#F8F8F3"
     >
    <LinearLayout
     android:layout_width="330dp"
@@ -12,19 +12,19 @@
     android:layout_marginTop="50dp"
     android:layout_gravity="center">
     <ImageView
-        android:layout_width="70dp"
+        android:layout_width="60dp"
         android:layout_height="70dp"
         android:layout_weight="1"
         android:id="@+id/sauna_service"
         android:src="@drawable/ic_sauna_xxhdpi"/>
     <ImageView
-        android:layout_width="70dp"
+        android:layout_width="60dp"
         android:layout_height="70dp"
         android:layout_weight="1"
         android:id="@+id/barber_service"
         android:src="@drawable/ic_barber_xxhdpi"/>
     <ImageView
-        android:layout_width="70dp"
+        android:layout_width="60dp"
         android:layout_height="70dp"
         android:layout_weight="1"
         android:id="@+id/laundry_service"
@@ -39,19 +39,19 @@
         android:weightSum="3"
         android:orientation="horizontal">
         <ImageView
-            android:layout_width="70dp"
+            android:layout_width="60dp"
             android:layout_height="70dp"
             android:layout_weight="1"
             android:id="@+id/carfix_service"
             android:src="@drawable/ic_carfix_xxhdpi"/>
         <ImageView
-            android:layout_width="70dp"
+            android:layout_width="60dp"
             android:layout_height="70dp"
             android:layout_weight="1"
             android:id="@+id/gas_service"
             android:src="@drawable/ic_gas_xxhdpi"/>
         <ImageView
-            android:layout_width="70dp"
+            android:layout_width="60dp"
             android:layout_height="70dp"
             android:layout_weight="1"
             android:id="@+id/photo_service"

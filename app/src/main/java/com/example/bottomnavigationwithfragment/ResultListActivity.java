@@ -1,6 +1,7 @@
 package com.example.bottomnavigationwithfragment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.bottomnavigationwithfragment.retrofit.RetrofitConnection;
@@ -37,8 +39,16 @@ public class ResultListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String a = intent.getStringExtra("dae");
         String b = intent.getStringExtra("joong");
-
+        Log.e("b",b+"");
         Toast.makeText(getApplicationContext(),"분류는 다음과 같습니다."+a+"의"+b,Toast.LENGTH_LONG).show();
+
+        Toolbar tb1 = findViewById(R.id.toolbar1);
+        setSupportActionBar(tb1);
+        getSupportActionBar().setTitle(b);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24px);
+
+
 
         //use retrofit2
         RetrofitConnection retrofitConnection = new RetrofitConnection();
@@ -70,11 +80,13 @@ public class ResultListActivity extends AppCompatActivity {
         });
 
 
+
         mArrayList = new ArrayList<>();
 
 
         recyclerView = (RecyclerView)findViewById(R.id.resultlist_recyclerview);
         layoutManager = new LinearLayoutManager(this);
+
         recyclerView.setLayoutManager(layoutManager);
 
         //구분선 추가하기
@@ -95,5 +107,17 @@ public class ResultListActivity extends AppCompatActivity {
 //            mAdapter.notifyDataSetChanged();
 //        }
 //            Log.e("배열크기",mArrayList.size()+"");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                finish();
+                return true;
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
