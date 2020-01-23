@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bottomnavigationwithfragment">
-
+    <!--인터넷 권한 설정-->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--위치 권한 설정-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -11,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StoreSignUp"></activity>
+        <activity android:name=".JusoActivity"></activity>
+        <activity android:name=".StoreSignUp" />
         <activity android:name=".StoreDetail" />
         <activity android:name=".ResultListActivity" />
         <activity android:name=".MainActivity">

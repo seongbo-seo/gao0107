@@ -6,9 +6,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.bottomnavigationwithfragment.fragment.FavoriteFragment;
 import com.example.bottomnavigationwithfragment.fragment.HomeFragment;
@@ -21,12 +26,15 @@ public class MainActivity extends AppCompatActivity {
     Fragment homeFragment,favoriteFragment,myFragment;
     BottomNavigationView bottomNavigationView;
     //FragmentTransaction fragmentTransaction;
+    TextView juso;
+    ImageView jusoarrow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Intent intent = getIntent();
+        String juso1 = intent.getStringExtra("longitude");
 
 
         fragmentManager = getSupportFragmentManager();
@@ -70,6 +78,32 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
+                juso=(TextView)findViewById(R.id.juso);
+                if(juso1!=null){
+                juso.setText(juso1);
+                }
+                jusoarrow=(ImageView)findViewById(R.id.juso_arrow);
+
+                juso.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(),JusoActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                jusoarrow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(),JusoActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+
+
     }
 
 }
