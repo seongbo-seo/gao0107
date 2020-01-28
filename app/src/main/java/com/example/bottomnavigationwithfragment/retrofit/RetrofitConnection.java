@@ -8,4 +8,8 @@ public class RetrofitConnection {
             .baseUrl(RetrofitInterface.url)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+    public Retrofit retrofit1= new Retrofit.Builder()
+            .baseUrl(RetrofitInterface.kakaoUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 }

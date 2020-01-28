@@ -30,6 +30,7 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/juso_edit"
             android:layout_width="290dp"
             android:layout_height="50dp"
             android:background="@drawable/edittext_background"

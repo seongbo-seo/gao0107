@@ -13,10 +13,22 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.bottomnavigationwithfragment.retrofit.RetrofitConnection;
+import com.example.bottomnavigationwithfragment.retrofit.RetrofitInterface;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class JusoActivity extends AppCompatActivity {
 
@@ -24,6 +36,7 @@ public class JusoActivity extends AppCompatActivity {
     LinearLayout linearLayout;
     TextView textView;
     LocationManager locationManager;
+    EditText juso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +47,8 @@ public class JusoActivity extends AppCompatActivity {
         img2=(ImageView)findViewById(R.id.search_btn);
         linearLayout=(LinearLayout)findViewById(R.id.mylocation);
         textView =(TextView)findViewById(R.id.juso_result);
+        juso = (EditText)findViewById(R.id.juso_edit);
+
 
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +86,43 @@ public class JusoActivity extends AppCompatActivity {
 
             }
         });
+
+        img2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String juso1 = juso.getText().toString();
+                //주소를 가져오는 레트로 핏
+                RetrofitConnection retrofitConnection = new RetrofitConnection();
+                RetrofitInterface retrofitInterface = retrofitConnection.retrofit1.create(RetrofitInterface.class);
+                retrofitInterface.getAddress(juso1).enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        Log.e("카카오성공","성공");
+                        Log.e("body content",response.body().toString());
+                        JsonParser jsonParser = new JsonParser();
+                        JsonObject jsonObject = (JsonObject)jsonParser.parse(response.body().toString());
+                        JsonArray docu = (JsonArray)jsonObject.get("documents");
+                        int num = docu.size();
+                        Log.e("배열의 크기",num+"");
+                        if(num==0){
+                            textView.setText("찾는 주소가 없습니다.");
+                        }
+                        for(int i =0;i<num;i++){
+                            JsonObject docu1 = (JsonObject)docu.get(i);
+                            textView.setText(docu1.get("address_name").toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Log.e("카카오실패","실패");
+                        Log.e("카카오실패이유",t.toString());
+                    }
+                });
+            }
+        });
+
+
     }
     final LocationListener gpsLocationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
