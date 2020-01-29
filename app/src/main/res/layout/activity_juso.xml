@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".JusoActivity"
+    tools:context=".juso.JusoActivity"
     android:orientation="vertical"
     >
     <ImageView
@@ -74,4 +74,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/juso_result"
         android:text="여기에 결과가 나옵니다."/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/juso_listview"/>
+
 </LinearLayout>

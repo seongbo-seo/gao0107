@@ -1,4 +1,4 @@
-package com.example.bottomnavigationwithfragment;
+package com.example.bottomnavigationwithfragment.juso;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -12,19 +12,24 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.bottomnavigationwithfragment.MainActivity;
+import com.example.bottomnavigationwithfragment.R;
 import com.example.bottomnavigationwithfragment.retrofit.RetrofitConnection;
 import com.example.bottomnavigationwithfragment.retrofit.RetrofitInterface;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +42,10 @@ public class JusoActivity extends AppCompatActivity {
     TextView textView;
     LocationManager locationManager;
     EditText juso;
+    ListView listView;
+
+    ArrayList<JusoItem> jusoItemArrayList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,9 @@ public class JusoActivity extends AppCompatActivity {
         linearLayout=(LinearLayout)findViewById(R.id.mylocation);
         textView =(TextView)findViewById(R.id.juso_result);
         juso = (EditText)findViewById(R.id.juso_edit);
+        listView = (ListView)findViewById(R.id.juso_listview);
+
+
 
 
         img1.setOnClickListener(new View.OnClickListener() {
@@ -79,9 +91,43 @@ public class JusoActivity extends AppCompatActivity {
                             1000,
                             1,
                             gpsLocationListener);
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                    intent.putExtra("longitude",longitude+"");
-                    startActivity(intent);
+                    String x= longitude+"";
+                    String y= latitude+"";
+                    String coord="WGS84";
+                    RetrofitConnection retrofitConnection = new RetrofitConnection();
+                    RetrofitInterface retrofitInterface = retrofitConnection.retrofit1.create(RetrofitInterface.class);
+                    retrofitInterface.transform(x,y,coord).enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                            JsonParser jsonParser = new JsonParser();
+                            JsonObject jsonObject = (JsonObject)jsonParser.parse(response.body().toString());
+                            JsonArray docu = (JsonArray)jsonObject.get("documents");
+                            JsonObject docu1=(JsonObject)docu.get(0);
+                            Log.e("좌표",docu1.toString());
+                            if(docu1.get("road_address").isJsonObject()){
+                            JsonObject docu2=(JsonObject)docu1.get("road_address");
+                                String transJuso = docu2.get("address_name").toString();
+                                transJuso = transJuso.replace("\"","");
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("juso",transJuso);
+                                startActivity(intent);
+                            }else{
+                                JsonObject docu2=(JsonObject)docu1.get("address");
+                                String transJuso = docu2.get("address_name").toString();
+                                transJuso = transJuso.replace("\"","");
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("juso",transJuso);
+                                startActivity(intent);
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                        }
+                    });
+
                 }
 
             }
@@ -107,10 +153,28 @@ public class JusoActivity extends AppCompatActivity {
                         if(num==0){
                             textView.setText("찾는 주소가 없습니다.");
                         }
+                        jusoItemArrayList = new ArrayList<JusoItem>();
                         for(int i =0;i<num;i++){
                             JsonObject docu1 = (JsonObject)docu.get(i);
-                            textView.setText(docu1.get("address_name").toString());
+                            JsonObject docu2 = (JsonObject) docu1.get("road_address");
+                            String mainJuso = docu1.get("address_name").toString();
+                            String subJuso = docu2.get("address_name").toString();
+                            mainJuso =mainJuso.replace("\"","");
+                            subJuso=subJuso.replace("\"","");
+                            jusoItemArrayList.add(new JusoItem(mainJuso,subJuso));
+
                         }
+                        Log.e("주소목록",jusoItemArrayList.toString());
+                        final JusoListAdapter jusoListAdapter = new JusoListAdapter(getApplicationContext(),jusoItemArrayList);
+                        listView.setAdapter(jusoListAdapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                intent.putExtra("juso",jusoListAdapter.getItem(position).getMainJuso().toString());
+                                startActivity(intent);
+                            }
+                        });
                     }
 
                     @Override
@@ -121,7 +185,6 @@ public class JusoActivity extends AppCompatActivity {
                 });
             }
         });
-
 
     }
     final LocationListener gpsLocationListener = new LocationListener() {
@@ -146,4 +209,7 @@ public class JusoActivity extends AppCompatActivity {
         public void onProviderDisabled(String provider) {
         }
     };
+
+
+
 }

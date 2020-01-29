@@ -4,20 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bottomnavigationwithfragment.fragment.FavoriteFragment;
 import com.example.bottomnavigationwithfragment.fragment.HomeFragment;
 import com.example.bottomnavigationwithfragment.fragment.MyFragment;
+import com.example.bottomnavigationwithfragment.juso.JusoActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
-        String juso1 = intent.getStringExtra("longitude");
+        String juso1 = intent.getStringExtra("juso");
 
 
         fragmentManager = getSupportFragmentManager();
@@ -89,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 juso.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getApplicationContext(),JusoActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), JusoActivity.class);
                         startActivity(intent);
                     }
                 });

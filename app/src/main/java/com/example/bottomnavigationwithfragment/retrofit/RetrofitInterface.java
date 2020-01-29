@@ -27,7 +27,9 @@ public interface RetrofitInterface {
     @GET("/todos")
     Call<JsonArray> getData();
 
-
+    @Headers("Authorization:KakaoAK 54dae3c66feb1b6fc832731c99ac47e1")
+    @GET("/v2/local/geo/coord2address.json")
+    Call<JsonObject> transform(@Query("x")String x,@Query("y")String y,@Query("input_coord")String coord);
 
 
 }

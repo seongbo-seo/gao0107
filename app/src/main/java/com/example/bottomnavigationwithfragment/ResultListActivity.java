@@ -52,7 +52,7 @@ public class ResultListActivity extends AppCompatActivity {
 
         //use retrofit2
         RetrofitConnection retrofitConnection = new RetrofitConnection();
-        RetrofitInterface retrofitInterface = retrofitConnection.retrofit1.create(RetrofitInterface.class);
+        RetrofitInterface retrofitInterface = retrofitConnection.retrofit.create(RetrofitInterface.class);
         retrofitInterface.getData().enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
