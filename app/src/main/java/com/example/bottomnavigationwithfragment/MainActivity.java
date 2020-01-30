@@ -26,14 +26,17 @@ public class MainActivity extends AppCompatActivity {
     //FragmentTransaction fragmentTransaction;
     TextView juso;
     ImageView jusoarrow;
-
+    String name,time,today;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         String juso1 = intent.getStringExtra("juso");
 
+        String name =intent.getStringExtra("storeName");
+        String time =intent.getStringExtra("storeTime");
+        String today=intent.getStringExtra("storeToday");
 
         fragmentManager = getSupportFragmentManager();
         homeFragment = new HomeFragment();

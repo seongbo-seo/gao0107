@@ -45,8 +45,11 @@ public class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecycl
                     Toast.makeText(v.getContext(),"아이템선택"+getAdapterPosition(),Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(context,StoreDetail.class);
                     StoreItem storeItem = mDataSet.get(getAdapterPosition());
+                    intent.putExtra("storeName",storeItem.getStoreName());
+                    intent.putExtra("storeTime",storeItem.getStoreTime());
+                    intent.putExtra("storeToday",storeItem.getStoreToday());
                     Log.e("position item",storeItem.getStoreName());
-                    context.startActivity(intent);
+                    ((ResultListActivity)context).startActivityForResult(intent,0);
                     Log.e("intent activate","intent act");
 
                 }

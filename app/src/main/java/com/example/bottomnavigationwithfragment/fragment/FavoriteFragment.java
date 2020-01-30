@@ -1,6 +1,7 @@
 package com.example.bottomnavigationwithfragment.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bottomnavigationwithfragment.MainActivity;
 import com.example.bottomnavigationwithfragment.R;
 import com.example.bottomnavigationwithfragment.ResultRecyclerViewAdapter;
 import com.example.bottomnavigationwithfragment.StoreItem;
@@ -42,37 +44,45 @@ public class FavoriteFragment extends Fragment {
         rootView = (ViewGroup)inflater.inflate(R.layout.favorit_fragment,container,false);
 
         //이 부분을 좋아요 목록 테이블을 불러서 구현하면 됨
-        RetrofitConnection retrofitConnection = new RetrofitConnection();
-        RetrofitInterface retrofitInterface = retrofitConnection.retrofit.create(RetrofitInterface.class);
-        retrofitInterface.getData().enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                JsonArray body = response.body();
-                Log.e("response success","success");
-                Log.e("response size",body.size()+"");
-                if(body!=null){
-                    Log.e("response contents",body.toString());
-                    for(int i=0;i<body.size();i++){
-                        JsonObject object= body.get(i).getAsJsonObject();
-                        String storename = object.get("title").getAsString();
-                        String storetime = object.get("completed").getAsString();
-                        String storetoday = object.get("id").getAsString();
-                        StoreItem item = new StoreItem("no",storename,storetime,storetoday);
-                        mArrayList.add(item);
-                        mAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
+//        RetrofitConnection retrofitConnection = new RetrofitConnection();
+//        RetrofitInterface retrofitInterface = retrofitConnection.retrofit.create(RetrofitInterface.class);
+//        retrofitInterface.getData().enqueue(new Callback<JsonArray>() {
+//            @Override
+//            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+//                JsonArray body = response.body();
+//                Log.e("response success","success");
+//                Log.e("response size",body.size()+"");
+//                if(body!=null){
+//                    Log.e("response contents",body.toString());
+//                    for(int i=0;i<body.size();i++){
+//                        JsonObject object= body.get(i).getAsJsonObject();
+//                        String storename = object.get("title").getAsString();
+//                        String storetime = object.get("completed").getAsString();
+//                        String storetoday = object.get("id").getAsString();
+//                        StoreItem item = new StoreItem("no",storename,storetime,storetoday);
+//                        mArrayList.add(item);
+//                        mAdapter.notifyDataSetChanged();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JsonArray> call, Throwable t) {
+//                Log.e("fail","fail");
+//            }
+//        });
 
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                Log.e("fail","fail");
-            }
-        });
+        Intent intent =((MainActivity)getActivity()).getIntent();
+        String name =intent.getStringExtra("storeName");
+        String time =intent.getStringExtra("storeTime");
+        String today=intent.getStringExtra("storeToday");
 
+        if (mArrayList == null){
+            mArrayList = new ArrayList<>();
 
-        mArrayList = new ArrayList<>();
-
+        }
+        mArrayList.add(new StoreItem("null",name,time,today));
+        if(name!=null){
         Context context = rootView.getContext();
         recyclerView = (RecyclerView)rootView.findViewById(R.id.favoritelist_recyclerview);
 
@@ -87,7 +97,7 @@ public class FavoriteFragment extends Fragment {
 
 
         recyclerView.setAdapter(mAdapter);
-
+        }
         return rootView;
 
     }

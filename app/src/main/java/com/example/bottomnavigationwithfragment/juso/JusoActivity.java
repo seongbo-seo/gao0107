@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,9 +44,11 @@ public class JusoActivity extends AppCompatActivity {
     LocationManager locationManager;
     EditText juso;
     ListView listView;
-
+    int page = 1;
     ArrayList<JusoItem> jusoItemArrayList;
-
+    String juso1=null;
+    int size=0;
+    String su =null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,11 @@ public class JusoActivity extends AppCompatActivity {
         juso = (EditText)findViewById(R.id.juso_edit);
         listView = (ListView)findViewById(R.id.juso_listview);
 
+        final InputMethodManager imm;
+        imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        RetrofitConnection retrofitConnection = new RetrofitConnection();
+        final RetrofitInterface retrofitInterface = retrofitConnection.retrofit1.create(RetrofitInterface.class);
 
 
 
@@ -136,11 +144,16 @@ public class JusoActivity extends AppCompatActivity {
         img2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String juso1 = juso.getText().toString();
+                juso1 = juso.getText().toString().trim();
+                imm.hideSoftInputFromWindow(juso.getWindowToken(),0);
+                size =15;
+                if(juso1.isEmpty()){
+                    juso.setError("주소를 입력하세요");
+                    juso.requestFocus();
+                }else{
                 //주소를 가져오는 레트로 핏
-                RetrofitConnection retrofitConnection = new RetrofitConnection();
-                RetrofitInterface retrofitInterface = retrofitConnection.retrofit1.create(RetrofitInterface.class);
-                retrofitInterface.getAddress(juso1).enqueue(new Callback<JsonObject>() {
+
+                retrofitInterface.getAddress(juso1,page,size).enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         Log.e("카카오성공","성공");
@@ -148,6 +161,9 @@ public class JusoActivity extends AppCompatActivity {
                         JsonParser jsonParser = new JsonParser();
                         JsonObject jsonObject = (JsonObject)jsonParser.parse(response.body().toString());
                         JsonArray docu = (JsonArray)jsonObject.get("documents");
+                        JsonObject meta = (JsonObject)jsonObject.get("meta");
+                        su =meta.get("is_end")+"";
+                        Log.e("총 개수",su);
                         int num = docu.size();
                         Log.e("배열의 크기",num+"");
                         if(num==0){
@@ -162,8 +178,60 @@ public class JusoActivity extends AppCompatActivity {
                             mainJuso =mainJuso.replace("\"","");
                             subJuso=subJuso.replace("\"","");
                             jusoItemArrayList.add(new JusoItem(mainJuso,subJuso));
-
                         }
+                        if(su.equals("false")){
+                            page++;
+                            Log.e("if문 통과","pass");
+                            Log.e("page",page+"");
+
+                            retrofitInterface.getAddress(juso1,page,size).enqueue(new Callback<JsonObject>() {
+                                @Override
+                                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                    Log.e("카카오성공","성공");
+                                    Log.e("body content",response.body().toString());
+                                    JsonParser jsonParser = new JsonParser();
+                                    JsonObject jsonObject = (JsonObject)jsonParser.parse(response.body().toString());
+                                    JsonArray docu = (JsonArray)jsonObject.get("documents");
+                                    JsonObject meta = (JsonObject)jsonObject.get("meta");
+                                    su =meta.get("is_end")+"";
+                                    Log.e("총 개수",su);
+                                    int num = docu.size();
+                                    Log.e("배열의 크기",num+"");
+                                    if(num==0){
+                                        textView.setText("찾는 주소가 없습니다.");
+                                    }
+                                    for(int i =0;i<num;i++){
+                                        JsonObject docu1 = (JsonObject)docu.get(i);
+                                        JsonObject docu2 = (JsonObject) docu1.get("road_address");
+                                        String mainJuso = docu1.get("address_name").toString();
+                                        String subJuso = docu2.get("address_name").toString();
+                                        mainJuso =mainJuso.replace("\"","");
+                                        subJuso=subJuso.replace("\"","");
+                                        jusoItemArrayList.add(new JusoItem(mainJuso,subJuso));
+                                    }
+
+                                    Log.e("주소목록",jusoItemArrayList.toString());
+                                    final JusoListAdapter jusoListAdapter = new JusoListAdapter(getApplicationContext(),jusoItemArrayList);
+                                    listView.setAdapter(jusoListAdapter);
+                                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                            intent.putExtra("juso",jusoListAdapter.getItem(position).getMainJuso().toString());
+                                            startActivity(intent);
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<JsonObject> call, Throwable t) {
+                                    Log.e("카카오실패","실패");
+                                    Log.e("카카오실패이유",t.toString());
+                                }
+                            });
+                        }
+
                         Log.e("주소목록",jusoItemArrayList.toString());
                         final JusoListAdapter jusoListAdapter = new JusoListAdapter(getApplicationContext(),jusoItemArrayList);
                         listView.setAdapter(jusoListAdapter);
@@ -183,6 +251,7 @@ public class JusoActivity extends AppCompatActivity {
                         Log.e("카카오실패이유",t.toString());
                     }
                 });
+             }
             }
         });
 

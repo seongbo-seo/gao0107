@@ -22,7 +22,7 @@ public interface RetrofitInterface {
     //String kakaoapikey = "KakaoAk 54dae3c66feb1b6fc832731c99ac47e1";
     @Headers("Authorization:KakaoAK 54dae3c66feb1b6fc832731c99ac47e1")
     @GET("/v2/local/search/address.json")
-    Call<JsonObject> getAddress(@Query("query")String juso);
+    Call<JsonObject> getAddress(@Query("query")String juso,@Query("page")int page,@Query("size")int size);
 
     @GET("/todos")
     Call<JsonArray> getData();
