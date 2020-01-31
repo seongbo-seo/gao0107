@@ -15,10 +15,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.bottomnavigationwithfragment.MainActivity;
 import com.example.bottomnavigationwithfragment.R;
 import com.example.bottomnavigationwithfragment.ResultRecyclerViewAdapter;
+import com.example.bottomnavigationwithfragment.SingletonHolder;
 import com.example.bottomnavigationwithfragment.StoreItem;
 import com.example.bottomnavigationwithfragment.retrofit.RetrofitConnection;
 import com.example.bottomnavigationwithfragment.retrofit.RetrofitInterface;
@@ -35,8 +37,10 @@ public class FavoriteFragment extends Fragment {
     private ViewGroup rootView;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
-    private ArrayList<StoreItem> mArrayList;
+    private ArrayList<StoreItem> favoriteArrayList;
     private RecyclerView.LayoutManager layoutManager;
+
+    SingletonHolder singletonHolder = SingletonHolder.getInstance();
 
     @Nullable
     @Override
@@ -71,18 +75,19 @@ public class FavoriteFragment extends Fragment {
 //                Log.e("fail","fail");
 //            }
 //        });
+//
+//        Intent intent =((MainActivity)getActivity()).getIntent();
+//        String name =intent.getStringExtra("storeName");
+//        String time =intent.getStringExtra("storeTime");
+//        String today=intent.getStringExtra("storeToday");
 
-        Intent intent =((MainActivity)getActivity()).getIntent();
-        String name =intent.getStringExtra("storeName");
-        String time =intent.getStringExtra("storeTime");
-        String today=intent.getStringExtra("storeToday");
-
-        if (mArrayList == null){
-            mArrayList = new ArrayList<>();
+        if (favoriteArrayList == null){
+            favoriteArrayList = singletonHolder.favoriteArrayList;
 
         }
-        mArrayList.add(new StoreItem("null",name,time,today));
-        if(name!=null){
+//        favoriteArrayList.add(new StoreItem("null",name,time,today));
+        if(favoriteArrayList!=null){
+            Log.e("arrinfragment",favoriteArrayList.toString());
         Context context = rootView.getContext();
         recyclerView = (RecyclerView)rootView.findViewById(R.id.favoritelist_recyclerview);
 
@@ -91,14 +96,16 @@ public class FavoriteFragment extends Fragment {
                 new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(context).getOrientation());
 
         recyclerView.addItemDecoration(dividerItemDecoration);
-        mAdapter = new ResultRecyclerViewAdapter(mArrayList);
+        mAdapter = new ResultRecyclerViewAdapter(favoriteArrayList);
+        mAdapter.notifyDataSetChanged();
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-
-
         recyclerView.setAdapter(mAdapter);
+        if(!singletonHolder.favoriteArrayList.isEmpty()){mAdapter.notifyDataSetChanged();}
         }
+
         return rootView;
 
     }
+
 }

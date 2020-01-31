@@ -116,16 +116,18 @@ public class JusoActivity extends AppCompatActivity {
                             JsonObject docu2=(JsonObject)docu1.get("road_address");
                                 String transJuso = docu2.get("address_name").toString();
                                 transJuso = transJuso.replace("\"","");
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent();
                                 intent.putExtra("juso",transJuso);
-                                startActivity(intent);
+                                setResult(RESULT_OK,intent);
+                                finish();
                             }else{
                                 JsonObject docu2=(JsonObject)docu1.get("address");
                                 String transJuso = docu2.get("address_name").toString();
                                 transJuso = transJuso.replace("\"","");
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent();
                                 intent.putExtra("juso",transJuso);
-                                startActivity(intent);
+                                setResult(RESULT_OK,intent);
+                                finish();
                             }
 
                         }
@@ -216,9 +218,10 @@ public class JusoActivity extends AppCompatActivity {
                                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                         @Override
                                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                                            intent.putExtra("juso",jusoListAdapter.getItem(position).getMainJuso().toString());
-                                            startActivity(intent);
+                                            Intent intent = new Intent();
+                                            intent.putExtra("juso_list",jusoListAdapter.getItem(position).getMainJuso().toString());
+                                            setResult(1213,intent);
+                                            finish();
                                         }
                                     });
 

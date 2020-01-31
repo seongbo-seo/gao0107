@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 public class StoreDetail extends AppCompatActivity {
 
     TextView storename,storetime,storetoday;
+    SingletonHolder singletonHolder = SingletonHolder.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +52,20 @@ public class StoreDetail extends AppCompatActivity {
                 return true;
             }
             case R.id.favorite:
-                Intent intent1 = new Intent(this,MainActivity.class);
-                intent1.putExtra("storeName",storename.getText());
-                intent1.putExtra("storeTime",storetime.getText());
-                intent1.putExtra("storeToday",storetoday.getText());
-                startActivity(intent1);
-                Toast.makeText(getApplicationContext(),"값이 전달됨"+storename.getText(),Toast.LENGTH_LONG).show();
+//                Intent intent1 = new Intent(this,MainActivity.class);
+//                intent1.putExtra("storeName",storename.getText());
+//                intent1.putExtra("storeTime",storetime.getText());
+//                intent1.putExtra("storeToday",storetoday.getText());
+//                startActivity(intent1);
+//                Toast.makeText(getApplicationContext(),"값이 전달됨"+storename.getText(),Toast.LENGTH_LONG).show();
+                if(!singletonHolder.favoriteArrayList.contains(storename.getText())){
+                    singletonHolder.favoriteArrayList.add(new StoreItem("null",storename.getText().toString(),storetime.getText().toString(),storetoday.getText().toString()));
+                    Toast.makeText(getApplicationContext(),storename.getText()+"이 즐겨찾기에 추가되었습니다.",Toast.LENGTH_LONG).show();
+                    Log.e("arr",singletonHolder.favoriteArrayList.toString());
+                }
+                else if(singletonHolder.favoriteArrayList.contains(storename.getText())){
+                    Toast.makeText(getApplicationContext(),storename.getText()+"은 이미 추가되었습니다.",Toast.LENGTH_LONG).show();
+                }
                 return true;
 
         }
